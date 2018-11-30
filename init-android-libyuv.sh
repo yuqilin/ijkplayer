@@ -17,8 +17,8 @@
 #
 
 
-IJK_LIBYUV_UPSTREAM=https://github.com/yuqilin/libyuv.git
-IJK_LIBYUV_FORK=https://github.com/yuqilin/libyuv.git
+IJK_LIBYUV_UPSTREAM=git@github.com:yuqilin/libyuv.git
+IJK_LIBYUV_FORK=git@github.com:yuqilin/libyuv.git
 IJK_LIBYUV_COMMIT=qmediaplayer-dev
 IJK_LIBYUV_LOCAL_REPO=extra/libyuv
 

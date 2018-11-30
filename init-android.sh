@@ -17,10 +17,17 @@
 #
 
 # IJK_FFMPEG_UPSTREAM=git://git.videolan.org/ffmpeg.git
-IJK_FFMPEG_UPSTREAM=https://github.com/yuqilin/FFmpeg.git
-IJK_FFMPEG_FORK=https://github.com/yuqilin/FFmpeg.git
+IJK_FFMPEG_UPSTREAM=git@github.com:yuqilin/FFmpeg.git
+IJK_FFMPEG_FORK=git@github.com:yuqilin/FFmpeg.git
 IJK_FFMPEG_COMMIT=ff3.4--ijk0.8.7--20180103--001
 IJK_FFMPEG_LOCAL_REPO=extra/ffmpeg
+
+LIBX264_REMOTE=git@github.com:yuqilin/libx264.git
+LIBX264_LOCAL=extra/libx264
+LIBX264_COMMIT=stable
+
+LIBMP3LAME_REMOTE=git@github.com:yuqilin/libmp3lame.git
+LIBMP3LAME_LOCAL=extra/libmp3lame
 
 set -e
 TOOLS=tools
@@ -29,21 +36,27 @@ git --version
 
 echo "== pull ffmpeg base =="
 sh $TOOLS/pull-repo-base.sh $IJK_FFMPEG_UPSTREAM $IJK_FFMPEG_LOCAL_REPO
+sh $TOOLS/pull-repo-base.sh $LIBX264_REMOTE $LIBX264_LOCAL
+sh $TOOLS/pull-repo-base.sh $LIBMP3LAME_REMOTE $LIBMP3LAME_LOCAL
 
 function pull_fork()
 {
     echo "== pull ffmpeg fork $1 =="
     sh $TOOLS/pull-repo-ref.sh $IJK_FFMPEG_FORK android/contrib/ffmpeg-$1 ${IJK_FFMPEG_LOCAL_REPO}
+    sh $TOOLS/pull-repo-ref.sh $LIBX264_REMOTE android/contrib/libx264-$1 ${LIBX264_LOCAL}
     cd android/contrib/ffmpeg-$1
     git checkout ${IJK_FFMPEG_COMMIT} -B ijkplayer
     cd -
+    cd android/contrib/libx264-$1
+    git checkout ${LIBX264_COMMIT}
+    cd -
 }
 
-pull_fork "armv5"
+# pull_fork "armv5"
 pull_fork "armv7a"
-pull_fork "arm64"
-pull_fork "x86"
-pull_fork "x86_64"
+# pull_fork "arm64"
+# pull_fork "x86"
+# pull_fork "x86_64"
 
 ./init-config.sh
 ./init-android-libyuv.sh
